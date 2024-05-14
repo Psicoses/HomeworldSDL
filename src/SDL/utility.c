@@ -649,8 +649,6 @@ color versionColor = colWhite;
 
 // some crude formatting within the .cfg's scriptEntry context
 char filecfgblankspace = '\0';
-//array of options to skip writing out, add dynamically in code
-char optionsNotToWrite[200][50];
 
 scriptEntry utyOptionsList[] =
 {
@@ -914,40 +912,6 @@ void utyOptionsFileRead(void)
 }
 
 /*-----------------------------------------------------------------------------
-    Name        : addOptionsNotToWrite
-    Description : Adds an option to exclude writing to the Homeworld.ini file
-    Inputs      : option name string
-    Outputs     : Adds option to optionsNotToWrite
-    Return      : void
-----------------------------------------------------------------------------*/
-
-void addOptionsNotToWrite(char option[]){
-  for (int i=0;i<sizeof(optionsNotToWrite)/sizeof(optionsNotToWrite[0]);i++) {
-    if (optionsNotToWrite[i][0]=='\0') {
-      strcpy(optionsNotToWrite[i],option);
-      break;
-    }
-  }
-}
-
-/*-----------------------------------------------------------------------------
-    Name        : checkOptionsNotToWrite
-    Description : check if option is is contained in optionsNotToWrite
-    Inputs      : option name string
-    Outputs     :
-    Return      : True if optionsNotToWrite contain inputed option, false otherwise
-----------------------------------------------------------------------------*/
-
-bool checkOptionsNotToWrite(char optionName[]){
-  for(int i=0;i<sizeof(optionsNotToWrite)/sizeof(optionsNotToWrite[0]);i++) {
-    if (strcmp(optionsNotToWrite[i],optionName) == 0) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-
-/*-----------------------------------------------------------------------------
     Name        : utyOptionsFileWrite
     Description : Write a set of options from the Homeworld.ini file
     Inputs      : void
@@ -980,7 +944,6 @@ void utyOptionsFileWrite(void)
 
     for (index = 0; utyOptionsList[index].name != NULL; index++)
     {
-        if (checkOptionsNotToWrite(utyOptionsList[index].name)) continue;
         if (utyOptionsList[index].setVarCB == scriptSetUbyteCB) {
             fprintf(f, "%s    %u\n", utyOptionsList[index].name,
                 *((ubyte *)utyOptionsList[index].dataPtr));
@@ -3586,6 +3549,8 @@ char *utyCannotOpenFileMessages[] =
 ----------------------------------------------------------------------------*/
 char* utyGameSystemsPreInit(void)
 {
+    char *dataPath = getenv("HW_Data");
+
 #if CD_VALIDATION_ENABLED
 #ifdef HW_BUILD_FOR_DISTRIBUTION
 #ifdef _WIN32
@@ -3613,15 +3578,13 @@ char* utyGameSystemsPreInit(void)
 
     // where the Homeworld data files are
 
-    char *dataPath = getenv("HW_Data");
+
     // default to the current directory
     if (dataPath == NULL)
     {
         // Check to see if fileHomeworldDataPath is set
         if (fileHomeworldDataPath[0] == '\0')
         {
-            //do not write this option out if it was not set in the config
-            addOptionsNotToWrite("HomeworldDataPath");
             getcwd(filePathTempBuffer, PATH_MAX);
             dataPath = filePathTempBuffer;
 

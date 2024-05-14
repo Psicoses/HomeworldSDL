@@ -3445,9 +3445,9 @@ void nisVincibleSet(char *directory,char *field,void *dataToFillIn)
 }
 void nisSoundEventSet(char *directory,char *field,void *dataToFillIn)
 {
+	int param;
     nisevent *event = nisNewEvent(NEO_SoundEvent);
     event->param[0] = event->param[1] = 0;
-    int param;
     sscanf(field, "%d", &param);
     event->param[0] = param;
 }

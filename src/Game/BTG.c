@@ -530,6 +530,7 @@ void btgLoad(char* filename)
     udword polySize;
     real32 thetaSave, phiSave;
     udword i;
+	btgPolygon* polyOut;
 #if FIX_ENDIAN
     Uint64 *swap;
 #endif
@@ -833,7 +834,7 @@ void btgLoad(char* filename)
     //reset the game's current texture, which now differs from the GL's
     trClearCurrent();
 
-    btgPolygon* polyOut;
+
 
     //polys.  trivial copy
     polySize = btgHead->numPolys * sizeof(btgPolygon);

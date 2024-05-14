@@ -1089,7 +1089,8 @@ void gpLoadGame(char *name, featom *atom)
 
 void gpDeleteGame(char *name, featom *atom)
 {
-    char filename[PATH_MAX] = "";
+	char filename[PATH_MAX] = "";
+    char *tmpFilePath = filePathPrepend(filename, FF_UserSettingsPath);
     sdword i;
     sdword index;
     fonthandle  oldfont;
@@ -1103,7 +1104,7 @@ void gpDeleteGame(char *name, featom *atom)
 
     feScreenDisappear(NULL, NULL);
 
-    char *tmpFilePath = filePathPrepend(filename, FF_UserSettingsPath);
+
     strcpy(filename, tmpFilePath);
     fileDelete(filename);
 

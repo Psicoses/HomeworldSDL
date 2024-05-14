@@ -24,6 +24,7 @@
 #include "UnivUpdate.h"
 
 #define TEST_LIGHTNING 0
+#define M_PI_2 3.14159265358979323846 / 2.0
 
 extern udword gDevcaps2;
 
@@ -978,7 +979,7 @@ void cloudGenerateLightning(vector *from, vector *to) {
 }
 
 void cloudRenderLightning(vector* pa, vector* pb, udword depth, sdword lod) {
-    vector lightning[depth];
+    vector lightning[64];
     real32 width = 12.0f / (real32)(lod + 1);
     real32 alpha = width / 10.0f;
     if (width > 3.0f) alpha = 1.0f;

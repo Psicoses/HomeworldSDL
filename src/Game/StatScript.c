@@ -778,12 +778,13 @@ bool parseLine(char *line,char **returnName,char **returnValue)
 ----------------------------------------------------------------------------*/
 void scriptSetStruct(char *directory,char *filename,scriptStructEntry info[],ubyte *structureToFillIn)
 {
+	scriptStructEntry *foundentry;
     filehandle fh;
     char line[MAX_LINE_CHARS];
     char *name, *value;
     char fullfilename[80];
     sdword status;
-    scriptStructEntry *foundentry;
+    
 
     if (directory != NULL)
     {

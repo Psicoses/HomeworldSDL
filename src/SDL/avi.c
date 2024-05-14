@@ -596,10 +596,10 @@ int aviStop(void)
 
 bool aviPlay(char* filename)
 {
+	char  fullname[1024];
 #if AVI_VERBOSE_LEVEL >= 2
 dbgMessage("aviPlay:Entering");
 #endif
-    char  fullname[1024];
 
 //TODO  Include Windows file structure. 
 
